@@ -50,7 +50,7 @@ def add_pet():
        )
         db.session.add(new_pet)
         db.session.commit()
-        return redirect("/add")
+        return redirect("/")
     else :
 
         return render_template("pet_add_form.html", form=form)
