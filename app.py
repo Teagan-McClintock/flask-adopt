@@ -2,7 +2,7 @@
 
 import os
 
-from flask import Flask
+from flask import Flask, render_template, redirect, request
 from flask_debugtoolbar import DebugToolbarExtension
 
 from models import db, connect_db, Pet
@@ -24,3 +24,11 @@ connect_db(app)
 # app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 toolbar = DebugToolbarExtension(app)
+
+@app.get("/")
+def show_homepage():
+    """Displays homepage listing pets with their photos and adoption status"""
+
+    pets = Pet.query.all()
+
+    return render_template("homepage.html", pets=pets)
