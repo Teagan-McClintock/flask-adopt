@@ -3,19 +3,24 @@
 {% block title %} Homepage {% endblock %}
 
 {% block content %}
-  {% for pet in pets %}
-   <img src="{{ pet.photo_url }}">
-<p>
-  <a href="" alt="No photo">{{ pet.name }}</a>
-  {% if pet.available %}
-  <span><b>is available!</b></span>
-    {% else %}
-   <span>is adopted!</span>
-   {% endif %}
-</p>
-  {% endfor %}
 
 <div>
   <button><a href="/add">Put a Pet Up for Adoption!</a></button>
 </div>
+<div>
+  <ul>
+    {% for pet in pets %}
+    <li>
+      <img src="{{ pet.photo_url }}" alt=" {{ pet.name }} has no photo">
+      <a href="/{{ pet.id }}">{{ pet.name }}</a>
+      {% if pet.available %}
+        <span><b>is available!</b></span>
+      {% else %}
+        <span>is adopted!</span>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
 {% endblock %}

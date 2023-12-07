@@ -28,15 +28,16 @@ toolbar = DebugToolbarExtension(app)
 
 @app.get("/")
 def show_homepage():
-    """Displays homepage listing pets with their photos and adoption status"""
+    """Displays homepage listing pets with their photos and adoption status.
+    Contains link to form to add a new pet."""
 
-    pets = Pet.query.all()
+    pets = Pet.query.order_by(Pet.id).all()
 
     return render_template("homepage.html", pets=pets)
 
 @app.route("/add", methods=["GET","POST"])
 def add_pet():
-    """Add pet form; handle adding."""
+    """Display add pet form; handle adding."""
 
     form = AddPetForm()
 
@@ -48,11 +49,12 @@ def add_pet():
             age = form.age.data,
             notes = form.notes.data,
        )
+
         db.session.add(new_pet)
         db.session.commit()
-        return redirect("/")
-    else :
 
+        return redirect("/")
+    else:
         return render_template("pet_add_form.html", form=form)
 
 @app.route("/<int:pet_id>", methods=["GET","POST"])
@@ -71,10 +73,11 @@ def show_pet_profile(pet_id):
 
         db.session.add(pet)
         db.session.commit()
+
         return redirect(f"/{pet.id}")
 
     else :
-        return render_template("pet_profile.html", form=form)
+        return render_template("pet_profile.html", form=form, pet=pet)
 
 
 
